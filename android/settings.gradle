@@ -1,0 +1,3 @@
+rootProject.name = 'RemindersReactNative'
+
+include ':app'
