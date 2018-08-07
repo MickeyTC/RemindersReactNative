@@ -21,7 +21,7 @@ class AddButton extends Component {
       date: '',
       completed: false,
     }
-    Actions.todoDetail({ todo, onSave: this.props.addTodo })
+    Actions.addTodo({ todo, onSave: this.props.addTodo })
   }
 
   render() {

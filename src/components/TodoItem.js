@@ -33,7 +33,7 @@ export default class TodoItem extends Component {
         leftIconOnPress={() => onToggleCompleted(todo.id)}
         rightIcon={{ name: 'delete', color: 'red' }}
         onPressRightIcon={() => onDeleteTodo(todo.id)}
-        onPress={() => Actions.todoDetail({ todo, onSave: onUpdateTodo })}
+        onPress={() => Actions.editTodo({ todo, onSave: onUpdateTodo })}
       />
     )
   }

@@ -8,7 +8,8 @@ const RouterComponent = () => {
     <Router>
       <Scene>
         <Scene key="app" component={App} title="Reminders" initial />
-        <Scene key="todoDetail" component={TodoDetail} />
+        <Scene key="addTodo" title="Add Reminder" component={TodoDetail} />
+        <Scene key="editTodo" title="Edit Reminder" component={TodoDetail} />
       </Scene>
     </Router>
   )
