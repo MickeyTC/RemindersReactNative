@@ -24,7 +24,9 @@ export default class TodoItem extends Component {
     return (
       <ListItem
         title={todo.title}
-        subtitle={todo.date && moment(todo.date, 'YYYY-MM-DD HH:mm Z').fromNow()}
+        subtitle={
+          todo.date && moment(todo.date, 'YYYY-MM-DD HH:mm Z').fromNow()
+        }
         leftIcon={
           todo.completed
             ? { name: 'check-box', color: 'black' }
@@ -34,15 +36,14 @@ export default class TodoItem extends Component {
         rightIcon={{ name: 'delete', color: 'red' }}
         onPressRightIcon={() => onDeleteTodo(todo.id)}
         onPress={() => Actions.editTodo({ todo, onSave: onUpdateTodo })}
+        containerStyle={styles.container}
       />
     )
   }
 }
 
 const styles = StyleSheet.create({
-  todoItem: {
+  container: {
     flex: 1,
-    backgroundColor: 'whitesmoke',
-    color: 'red',
   },
 })
