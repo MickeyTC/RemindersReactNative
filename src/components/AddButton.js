@@ -26,21 +26,20 @@ class AddButton extends Component {
 
   render() {
     return (
-      <View>
-        <Button
-          style={styles.addButton}
-          title="Add Reminder"
-          icon={{ name: 'add' }}
-          backgroundColor="teal"
-          onPress={this.handleClick}
-        />
-      </View>
+      <Button
+        containerViewStyle={styles.addButton}
+        title="Add Reminder"
+        icon={{ name: 'add' }}
+        backgroundColor="teal"
+        onPress={this.handleClick}
+      />
     )
   }
 }
 
 const styles = StyleSheet.create({
   addButton: {
+    marginTop: 20,
     marginBottom: 20,
   },
 })

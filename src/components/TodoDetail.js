@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import {
   FormLabel,
   FormInput,
@@ -42,11 +42,11 @@ export default class TodoDetail extends Component {
       completed: this.props.todo.completed,
     }
     let newMoment = null
-    if (this.state.shortDate !== '' && this.state.shortTime === '') {
+    if (this.state.shortDate && !this.state.shortTime) {
       newMoment = moment(this.state.shortDate, 'DD/MM/YY')
-    } else if (this.state.shortDate === '' && this.state.shortTime !== '') {
+    } else if (!this.state.shortDate && this.state.shortTime) {
       newMoment = moment(this.state.shortTime, 'HH:mm')
-    } else if (this.state.shortDate !== '' && this.state.shortTime !== '') {
+    } else if (this.state.shortDate && this.state.shortTime) {
       newMoment = moment(
         `${this.state.shortDate} ${this.state.shortTime}`,
         'DD/MM/YY HH:mm'
@@ -61,12 +61,13 @@ export default class TodoDetail extends Component {
   render() {
     const { id, title, description, shortDate, shortTime } = this.state
     return (
-      <View style={styles.formContainer}>
+      <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
           <FormLabel>ID</FormLabel>
           <FormInput value={id} editable={false} />
           <FormLabel>Title</FormLabel>
           <FormInput
+            autoFocus
             placeholder="Title"
             value={title}
             onChangeText={text => this.setState({ title: text })}
@@ -74,6 +75,8 @@ export default class TodoDetail extends Component {
           <FormLabel>Description</FormLabel>
           <FormInput
             placeholder="Description"
+            multiline
+            numberOfLines={3}
             value={description}
             onChangeText={text => this.setState({ description: text })}
           />
@@ -91,22 +94,26 @@ export default class TodoDetail extends Component {
           />
         </View>
         <Button
-          style={styles.saveButton}
+          containerViewStyle={styles.saveButton}
           title="Save"
           icon={{ name: 'save' }}
           backgroundColor="teal"
           onPress={this.handleSubmit}
         />
-      </View>
+      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   formContainer: {
     flex: 1,
   },
   saveButton: {
+    marginTop: 20,
     marginBottom: 20,
   },
 })
