@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View, Text } from 'react-native'
 import { ListItem, Icon, Card, CheckBox } from 'react-native-elements'
+import { Actions } from 'react-native-router-flux'
+import moment from 'moment'
 
 export default class TodoItem extends Component {
   static propTypes = {
@@ -18,7 +20,7 @@ export default class TodoItem extends Component {
   }
 
   render() {
-    const { todo, onToggleCompleted, onDeleteTodo } = this.props
+    const { todo, onToggleCompleted, onDeleteTodo, onUpdateTodo } = this.props
     return (
       <ListItem
         title={todo.title}
@@ -31,6 +33,7 @@ export default class TodoItem extends Component {
         leftIconOnPress={() => onToggleCompleted(todo.id)}
         rightIcon={{ name: 'delete', color: 'red' }}
         onPressRightIcon={() => onDeleteTodo(todo.id)}
+        onPress={() => Actions.todoDetail({ todo, onSave: onUpdateTodo })}
       />
     )
   }
