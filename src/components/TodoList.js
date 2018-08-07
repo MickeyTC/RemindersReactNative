@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native'
-import { Card } from 'react-native-elements'
+import { StyleSheet, View, Text, ScrollView } from 'react-native'
+import { Card, ButtonGroup } from 'react-native-elements'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -11,6 +11,10 @@ import {
 import TodoItem from './TodoItem'
 
 class TodoList extends Component {
+  state = {
+    selectedFilter: 0,
+  }
+
   static propTypes = {
     todoList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -28,23 +32,49 @@ class TodoList extends Component {
 
   render() {
     const { todoList, updateTodo, deleteTodo, toggleCompleted } = this.props
+    const { selectedFilter } = this.state
+    const filterShow = ['All', 'Active', 'Completed']
+    const showTodoList = [
+      todoList,
+      todoList.filter(todo => !todo.completed),
+      todoList.filter(todo => todo.completed),
+    ]
+    const numTodo = showTodoList.map(list => list.length)
+    const filterButton = (title, num) => {
+      return (
+        <Text>
+          {title} ({num})
+        </Text>
+      )
+    }
     return (
-      <ScrollView style={styles.container}>
-        <Card containerStyle={styles.todoListContainer}>
-          {todoList.map(todo => {
-            console.log(todo)
-            return (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onUpdateTodo={updateTodo}
-                onDeleteTodo={deleteTodo}
-                onToggleCompleted={toggleCompleted}
-              />
-            )
-          })}
-        </Card>
-      </ScrollView>
+      <View style={styles.container}>
+        <ButtonGroup
+          onPress={selectedFilter => this.setState({ selectedFilter })}
+          selectedIndex={selectedFilter}
+          buttons={filterShow.map((title, idx) =>
+            filterButton(title, numTodo[idx])
+          )}
+          containerStyle={styles.filterButton}
+        />
+        {showTodoList[selectedFilter].length > 0 && (
+          <ScrollView style={styles.container}>
+            <Card containerStyle={styles.todoListContainer}>
+              {showTodoList[selectedFilter].map(todo => {
+                return (
+                  <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    onUpdateTodo={updateTodo}
+                    onDeleteTodo={deleteTodo}
+                    onToggleCompleted={toggleCompleted}
+                  />
+                )
+              })}
+            </Card>
+          </ScrollView>
+        )}
+      </View>
     )
   }
 }
@@ -54,6 +84,9 @@ const styles = StyleSheet.create({
   },
   todoListContainer: {
     flex: 1,
+  },
+  filterButton: {
+    marginTop: 15,
   },
 })
 
