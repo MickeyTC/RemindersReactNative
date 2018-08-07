@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import {
   FormLabel,
   FormInput,
@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux'
+import moment from 'moment'
 
 export default class TodoDetail extends Component {
   state = {
@@ -16,7 +17,7 @@ export default class TodoDetail extends Component {
     description: this.props.todo.description,
     shortDate: !this.props.todo.date
       ? ''
-      : moment(this.props.todo.date, 'YYYY-MM-DD HH:mm Z').format('YYYY-MM-DD'),
+      : moment(this.props.todo.date, 'YYYY-MM-DD HH:mm Z').format('DD/MM/YY'),
     shortTime: !this.props.todo.date
       ? ''
       : moment(this.props.todo.date, 'YYYY-MM-DD HH:mm Z').format('HH:mm'),
@@ -42,13 +43,13 @@ export default class TodoDetail extends Component {
     }
     let newMoment = null
     if (this.state.shortDate !== '' && this.state.shortTime === '') {
-      newMoment = moment(this.state.shortDate, 'YYYY-MM-DD')
+      newMoment = moment(this.state.shortDate, 'DD/MM/YY')
     } else if (this.state.shortDate === '' && this.state.shortTime !== '') {
       newMoment = moment(this.state.shortTime, 'HH:mm')
     } else if (this.state.shortDate !== '' && this.state.shortTime !== '') {
       newMoment = moment(
         `${this.state.shortDate} ${this.state.shortTime}`,
-        'YYYY-MM-DD HH:mm'
+        'DD/MM/YY HH:mm'
       )
     }
     newTodo.date =
@@ -58,7 +59,6 @@ export default class TodoDetail extends Component {
   }
 
   render() {
-    const { todo, onSave } = this.props
     const { id, title, description, shortDate, shortTime } = this.state
     return (
       <View style={styles.formContainer}>
@@ -80,13 +80,13 @@ export default class TodoDetail extends Component {
           <FormLabel>Due Date</FormLabel>
           <FormInput
             value={shortDate}
-            placeholder="dd/mm/yyyy"
+            placeholder="DD/MM/YY"
             onChangeText={text => this.setState({ shortDate: text })}
           />
           <FormLabel>Due Time</FormLabel>
           <FormInput
             value={shortTime}
-            placeholder="hh:mm"
+            placeholder="HH:mm"
             onChangeText={text => this.setState({ shortTime: text })}
           />
         </View>

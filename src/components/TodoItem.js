@@ -24,7 +24,7 @@ export default class TodoItem extends Component {
     return (
       <ListItem
         title={todo.title}
-        subtitle={todo.id}
+        subtitle={todo.date && moment(todo.date, 'YYYY-MM-DD HH:mm Z').fromNow()}
         leftIcon={
           todo.completed
             ? { name: 'check-box', color: 'black' }
