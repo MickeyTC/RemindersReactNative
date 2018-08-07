@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, FlatList } from 'react-native'
+import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native'
+import { Card } from 'react-native-elements'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -28,28 +29,30 @@ class TodoList extends Component {
   render() {
     const { todoList, updateTodo, deleteTodo, toggleCompleted } = this.props
     return (
-      <View style={styles.todoListContainer}>
-        <FlatList
-          style={styles.todoListContainer}
-          data={todoList}
-          keyExtractor={todo => todo.id}
-          renderItem={({ item }) => {
-            console.log(item)
+      <ScrollView style={styles.container}>
+        <Card containerStyle={styles.todoListContainer}>
+          {todoList.map(todo => {
+            console.log(todo)
             return (
               <TodoItem
-                todo={item}
+                key={todo.id}
+                todo={todo}
                 onUpdateTodo={updateTodo}
                 onDeleteTodo={deleteTodo}
                 onToggleCompleted={toggleCompleted}
               />
             )
-          }}
-        />
-      </View>
+          })}
+        </Card>
+      </ScrollView>
     )
   }
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignSelf: 'stretch',
+  },
   todoListContainer: {
     flex: 1,
   },

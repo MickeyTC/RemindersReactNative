@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
 import PropTypes from 'prop-types'
+import { StyleSheet, View, Text } from 'react-native'
+import { ListItem, Icon, Card, CheckBox } from 'react-native-elements'
 
 export default class TodoItem extends Component {
   static propTypes = {
@@ -17,11 +18,20 @@ export default class TodoItem extends Component {
   }
 
   render() {
-    const { todo } = this.props
+    const { todo, onToggleCompleted, onDeleteTodo } = this.props
     return (
-      <View>
-        <Text style={styles.todoItem}>{todo.title}</Text>
-      </View>
+      <ListItem
+        title={todo.title}
+        subtitle={todo.id}
+        leftIcon={
+          todo.completed
+            ? { name: 'check-box', color: 'black' }
+            : { name: 'check-box-outline-blank', color: 'black' }
+        }
+        leftIconOnPress={() => onToggleCompleted(todo.id)}
+        rightIcon={{ name: 'delete', color: 'red' }}
+        onPressRightIcon={() => onDeleteTodo(todo.id)}
+      />
     )
   }
 }
@@ -30,6 +40,6 @@ const styles = StyleSheet.create({
   todoItem: {
     flex: 1,
     backgroundColor: 'whitesmoke',
-    color: 'black',
+    color: 'red',
   },
 })
