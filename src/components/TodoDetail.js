@@ -82,27 +82,34 @@ export default class TodoDetail extends Component {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
-          <FormLabel>ID</FormLabel>
-          <FormInput value={id} editable={false} />
-          <FormLabel>Title</FormLabel>
+          <FormLabel labelStyle={styles.formLabel}>ID</FormLabel>
+          <FormInput
+            value={id}
+            inputStyle={styles.formInput}
+            editable={false}
+          />
+          <FormLabel labelStyle={styles.formLabel}>Title</FormLabel>
           <FormInput
             autoFocus
             placeholder="Title"
+            inputStyle={styles.formInput}
             value={title}
             onChangeText={text => this.setState({ title: text })}
           />
-          <FormLabel>Description</FormLabel>
+          <FormLabel labelStyle={styles.formLabel}>Description</FormLabel>
           <FormInput
             placeholder="Description"
+            inputStyle={styles.formInput}
             multiline
             numberOfLines={3}
             value={description}
             onChangeText={text => this.setState({ description: text })}
           />
-          <FormLabel>Due Date</FormLabel>
+          <FormLabel labelStyle={styles.formLabel}>Due Date</FormLabel>
           <FormInput
             value={shortDate}
             placeholder="DD/MM/YY"
+            inputStyle={styles.formInput}
             onChangeText={text => this.setState({ shortDate: text })}
             shake={!validShortDate}
           />
@@ -111,10 +118,11 @@ export default class TodoDetail extends Component {
               {'Invalid Date Format'}
             </FormValidationMessage>
           )}
-          <FormLabel>Due Time</FormLabel>
+          <FormLabel labelStyle={styles.formLabel}>Due Time</FormLabel>
           <FormInput
             value={shortTime}
             placeholder="HH:mm"
+            inputStyle={styles.formInput}
             onChangeText={text => this.setState({ shortTime: text })}
             shake={!validShortTime}
           />
@@ -142,6 +150,12 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
+  },
+  formLabel: {
+    color: 'black',
+  },
+  formInput: {
+    color: 'dimgray',
   },
   saveButton: {
     marginTop: 20,
