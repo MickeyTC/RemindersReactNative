@@ -12,7 +12,7 @@ import TodoItem from './TodoItem'
 
 class TodoList extends Component {
   state = {
-    selectedFilter: 0,
+    selectedFilter: 1,
   }
 
   static propTypes = {
