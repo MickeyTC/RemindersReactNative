@@ -21,12 +21,15 @@ export default class TodoItem extends Component {
 
   render() {
     const { todo, onToggleCompleted, onDeleteTodo, onUpdateTodo } = this.props
+    const listProps = todo.date
+      ? {
+          subtitle: moment(todo.date, 'YYYY-MM-DD HH:mm Z').fromNow(),
+        }
+      : {}
     return (
       <ListItem
         title={todo.title}
-        subtitle={
-          todo.date && moment(todo.date, 'YYYY-MM-DD HH:mm Z').fromNow()
-        }
+        {...listProps}
         leftIcon={
           todo.completed
             ? { name: 'check-box', color: 'black' }
