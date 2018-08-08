@@ -21,6 +21,8 @@ export default class TodoDetail extends Component {
     shortTime: !this.props.todo.date
       ? ''
       : moment(this.props.todo.date, 'YYYY-MM-DD HH:mm Z').format('HH:mm'),
+    validShortDate: true,
+    validShortTime: true,
   }
 
   static propTypes = {
@@ -41,6 +43,16 @@ export default class TodoDetail extends Component {
       description: this.state.description,
       completed: this.props.todo.completed,
     }
+    const validShortDate =
+      !this.state.shortDate ||
+      moment(this.state.shortDate, 'DD/MM/YY').isValid()
+    const validShortTime =
+      !this.state.shortTime || moment(this.state.shortTime, 'HH:mm').isValid()
+    this.setState({
+      validShortDate,
+      validShortTime,
+    })
+    if (!validShortDate || !validShortTime) return
     let newMoment = null
     if (this.state.shortDate && !this.state.shortTime) {
       newMoment = moment(this.state.shortDate, 'DD/MM/YY')
@@ -52,14 +64,21 @@ export default class TodoDetail extends Component {
         'DD/MM/YY HH:mm'
       )
     }
-    newTodo.date =
-      newMoment !== null ? newMoment.format('YYYY-MM-DD HH:mm Z') : ''
+    newTodo.date = newMoment ? newMoment.format('YYYY-MM-DD HH:mm Z') : ''
     this.props.onSave(newTodo)
     Actions.pop()
   }
 
   render() {
-    const { id, title, description, shortDate, shortTime } = this.state
+    const {
+      id,
+      title,
+      description,
+      shortDate,
+      shortTime,
+      validShortDate,
+      validShortTime,
+    } = this.state
     return (
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
@@ -85,13 +104,25 @@ export default class TodoDetail extends Component {
             value={shortDate}
             placeholder="DD/MM/YY"
             onChangeText={text => this.setState({ shortDate: text })}
+            shake={!validShortDate}
           />
+          {!validShortDate && (
+            <FormValidationMessage>
+              {'Invalid Date Format'}
+            </FormValidationMessage>
+          )}
           <FormLabel>Due Time</FormLabel>
           <FormInput
             value={shortTime}
             placeholder="HH:mm"
             onChangeText={text => this.setState({ shortTime: text })}
+            shake={!validShortTime}
           />
+          {!validShortTime && (
+            <FormValidationMessage>
+              {'Invalid Time Format'}
+            </FormValidationMessage>
+          )}
         </View>
         <Button
           containerViewStyle={styles.saveButton}
