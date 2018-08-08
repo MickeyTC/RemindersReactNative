@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import App from './App'
 import TodoDetail from './components/TodoDetail'
+import { addTodo } from './action/todoAction'
 
 class RouterComponent extends Component {
   static propTypes = {
